@@ -29,8 +29,8 @@ stack.push(2);
 stack.push(3);
 
 print(stack.sizeStack());
-print('Poped: ', stack.pop());
-print('Poped: ', stack.pop());
+print("Poped:  %s" % stack.pop());
+print("Poped:  %s" % stack.pop());
 
 print(stack.sizeStack());
-print('Peeked: ', stack.peek());
+print("Peeked:  %s" % stack.peek());
