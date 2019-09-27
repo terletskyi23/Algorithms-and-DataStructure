@@ -10,27 +10,27 @@ class Node:
 class AVL(object):
 
     def __init__(self):
-        self.root = None;
+        self.__root = None;
 
-    def _calcHeight(self, node):
+    def __calcHeight(self, node):
         if not node:
             return -1;
         return node.height;
 
     # if it returns value > 1 it means it is a left heavy tree -> right rotation
     # if it returns value < -1 it means it is a right heavy tree -> left rotation
-    def _calcBalance(self, node):
+    def __calcBalance(self, node):
         if not node:
             return 0;
-        return self._calcHeight(node.leftChild) - self._calcHeight(node.rightChild);
+        return self.__calcHeight(node.leftChild) - self.__calcHeight(node.rightChild);
 
-    def _getPredecessor(self, node):
+    def __getPredecessor(self, node):
         if node.rightChild:
-            return self._getPredecessor(node.rightChild);
+            return self.__getPredecessor(node.rightChild);
         return node;
 
     # Rotations
-    def _rotateRight(self, node):
+    def __rotateRight(self, node):
         print("Rotating on the right on node = %s" % node.data);
         tempLeftChild = node.leftChild;
         rcTlc = tempLeftChild.rightChild;
@@ -38,13 +38,13 @@ class AVL(object):
         tempLeftChild.rightChild = node;
         node.leftChild = rcTlc;
 
-        node.height = max(self._calcHeight(node.leftChild), self._calcHeight(node.rightChild)) + 1;
-        tempLeftChild.height = max(self._calcHeight(tempLeftChild.leftChild),
-                                   self._calcHeight(tempLeftChild.rightChild)) + 1;
+        node.height = max(self.__calcHeight(node.leftChild), self.__calcHeight(node.rightChild)) + 1;
+        tempLeftChild.height = max(self.__calcHeight(tempLeftChild.leftChild),
+                                   self.__calcHeight(tempLeftChild.rightChild)) + 1;
 
         return tempLeftChild;
 
-    def _rotateLeft(self, node):
+    def __rotateLeft(self, node):
         print("Rotating on the left on node = %s" % node.data);
         tempRightChild = node.rightChild;
         lcTrc = tempRightChild.leftChild;
@@ -52,70 +52,70 @@ class AVL(object):
         tempRightChild.leftChild = node;
         node.rightChild = lcTrc;
 
-        node.height = max(self._calcHeight(node.leftChild), self._calcHeight(node.rightChild)) + 1;
-        tempRightChild.height = max(self._calcHeight(tempRightChild.leftChild),
-                                   self._calcHeight(tempRightChild.rightChild)) + 1;
+        node.height = max(self.__calcHeight(node.leftChild), self.__calcHeight(node.rightChild)) + 1;
+        tempRightChild.height = max(self.__calcHeight(tempRightChild.leftChild),
+                                   self.__calcHeight(tempRightChild.rightChild)) + 1;
 
         return tempRightChild;
 
     # insert
     def insert(self, data):
-        self.root = self._insertNode(data, self.root);
+        self.__root = self.__insertNode(data, self.__root);
 
-    def _insertNode(self, data, node):
+    def __insertNode(self, data, node):
         if not node:
             return Node(data);
 
         if data < node.data:
-            node.leftChild = self._insertNode(data, node.leftChild);
+            node.leftChild = self.__insertNode(data, node.leftChild);
         else:
-            node.rightChild = self._insertNode(data, node.rightChild);
+            node.rightChild = self.__insertNode(data, node.rightChild);
 
-        node.height = max(self._calcHeight(node.leftChild), self._calcHeight(node.rightChild)) + 1;
+        node.height = max(self.__calcHeight(node.leftChild), self.__calcHeight(node.rightChild)) + 1;
 
-        return self._settleViolation(data, node);
+        return self.__settleViolation(data, node);
 
-    def _settleViolation(self, data, node):
-        balance = self._calcBalance(node);
+    def __settleViolation(self, data, node):
+        balance = self.__calcBalance(node);
 
         # case 1: left left heavy situation
         if balance > 1 and data < node.leftChild.data:
             print('Left left heavy situation.. -> right rotation');
-            return self._rotateRight(node);
+            return self.__rotateRight(node);
 
         # case 2: right right heavy situation
         if balance < -1 and data > node.rightChild.data:
             print('Right right heavy situation.. -> left rotation');
-            return self._rotateLeft(node);
+            return self.__rotateLeft(node);
 
         # case 3: left right heavy situation
         if balance > 1 and data > node.leftChild.data:
             print('Left right heavy situation.. -> two rotations:\n\rleft child to the left and node to the right)');
-            node.leftChild = self._rotateLeft(node.leftChild)
-            return self._rotateRight(node);
+            node.leftChild = self.__rotateLeft(node.leftChild)
+            return self.__rotateRight(node);
 
         # case 4: right left heavy situation
         if balance < -1 and data < node.rightChild.data:
             print('Right left heavy situation.. -> two rotations:\n\rleft child to the left and node to the left)');
-            node.rightChild = self._rotateRight(node.rightChild)
-            return self._rotateLeft(node);
+            node.rightChild = self.__rotateRight(node.rightChild)
+            return self.__rotateLeft(node);
 
         # case 5: everything is OK! =)
         return node;
 
     # remove
     def remove(self, data):
-        if self.root:
-            self.root = self._removeNode(data, self.root);
+        if self.__root:
+            self.__root = self.__removeNode(data, self.__root);
 
-    def _removeNode(self, data, node):
+    def __removeNode(self, data, node):
         if not node:
             return node;
 
         if data < node.data:
-            node.leftChild = self._removeNode(data, node.leftChild);
+            node.leftChild = self.__removeNode(data, node.leftChild);
         elif data > node.data:
-            node.rightChild = self._removeNode(data, node.rightChild);
+            node.rightChild = self.__removeNode(data, node.rightChild);
         else:
             if not node.leftChild and not node.rightChild:
                 # removing a leaf node...
@@ -132,9 +132,9 @@ class AVL(object):
                 del node;
                 return tempNode;
             # removing node with two children...
-            tempNode = self._getPredecessor(node.leftChild);
+            tempNode = self.__getPredecessor(node.leftChild);
             node.data = tempNode.data;
-            node.leftChild = self._removeNode(tempNode.data, node.leftChild);
+            node.leftChild = self.__removeNode(tempNode.data, node.leftChild);
 
         # BTS removing + ...
 
@@ -142,43 +142,43 @@ class AVL(object):
         if not node:
             return node;
 
-        node.height = max(self._calcHeight(node.leftChild), self._calcHeight(node.rightChild)) + 1;
-        balance = self._calcBalance(node);
+        node.height = max(self.__calcHeight(node.leftChild), self.__calcHeight(node.rightChild)) + 1;
+        balance = self.__calcBalance(node);
 
         # case 1: double left heavy situation
-        if balance > 1 and self._calcBalance(node.leftChild) >= 0:
-            return self._rotateRight(node);
+        if balance > 1 and self.__calcBalance(node.leftChild) >= 0:
+            return self.__rotateRight(node);
 
         # case 2: double right heavy situation
-        if balance < -1 and self._calcBalance(node.leftChild) < 0:
-            return self._rotateLeft(node);
+        if balance < -1 and self.__calcBalance(node.leftChild) < 0:
+            return self.__rotateLeft(node);
 
         # case 3: left right heavy situation
-        if balance > 1 and self._calcBalance(node.leftChild) <= 0:
-            node.leftChild = self._rotateLeft(node.leftChild)
-            return self._rotateRight(node);
+        if balance > 1 and self.__calcBalance(node.leftChild) <= 0:
+            node.leftChild = self.__rotateLeft(node.leftChild)
+            return self.__rotateRight(node);
 
         # case 4: right left heavy situation
-        if balance < -1 and self._calcBalance(node.leftChild) > 0:
-            node.rightChild = self._rotateRight(node.rightChild)
-            return self._rotateLeft(node);
+        if balance < -1 and self.__calcBalance(node.leftChild) > 0:
+            node.rightChild = self.__rotateRight(node.rightChild)
+            return self.__rotateLeft(node);
 
         # case 5: everything is OK! =)
         return node;
 
     # traverse
     def traverse(self):
-         if self.root:
-             self._traverseInOrder(self.root);
+         if self.__root:
+             self.__traverseInOrder(self.__root);
 
-    def _traverseInOrder(self, node):
+    def __traverseInOrder(self, node):
         if node.leftChild:
-            self._traverseInOrder(node.leftChild);
+            self.__traverseInOrder(node.leftChild);
 
         print("%s " % node.data);
 
         if node.rightChild:
-            self._traverseInOrder(node.rightChild);
+            self.__traverseInOrder(node.rightChild);
 
 # ----
 

@@ -10,28 +10,28 @@ class Node(object):
 class LinkedList(object):
 
     def __init__(self):
-        self.head = None;
-        self.size = 0;
+        self.__head = None;
+        self.__size = 0;
 
     # O(1)
     def insertStart(self, data):
-        self.size += 1;
+        self.__size += 1;
         newNode = Node(data);
 
-        if not self.head:
-            self.head = newNode;
+        if not self.__head:
+            self.__head = newNode;
         else:
-            newNode.nextNode = self.head
-            self.head = newNode
+            newNode.nextNode = self.__head
+            self.__head = newNode
 
     # O(N)
     def remove(self, data):
-        if self.head is None:
+        if self.__head is None:
             return;
 
-        self.size -= 1;
+        self.__size -= 1;
 
-        currentNode = self.head;
+        currentNode = self.__head;
         previousNode = None;
 
         while currentNode.data != data:
@@ -39,17 +39,17 @@ class LinkedList(object):
             currentNode = currentNode.nextNode;
 
         if previousNode is None:
-            self.head = currentNode.nextNode;
+            self.__head = currentNode.nextNode;
         else:
             previousNode.nextNode = currentNode.nextNode;
 
     # O(1)
     def size1(self):
-        return self.size
+        return self.__size
 
     # O(N)
     def size2(self):
-        actualNode = self.head;
+        actualNode = self.__head;
         size = 0;
 
         while actualNode is not None:
@@ -60,9 +60,9 @@ class LinkedList(object):
 
     # O(N)
     def insertEnd(self, data):
-        self.size += 1;
+        self.__size += 1;
         newNode = Node(data);
-        actualNode = self.head;
+        actualNode = self.__head;
 
         while actualNode.nextNode is not None:
             actualNode = actualNode.nextNode;
@@ -71,7 +71,7 @@ class LinkedList(object):
 
     # O(N)
     def traverseList(self):
-        actualNode = self.head;
+        actualNode = self.__head;
         while actualNode is not None:
             print("%d " % actualNode.data);
             actualNode = actualNode.nextNode;

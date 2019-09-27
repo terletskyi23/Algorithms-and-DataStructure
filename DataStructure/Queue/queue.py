@@ -1,24 +1,24 @@
 class Queue:
 
     def __init__(self):
-        self.queue = [];
+        self.__queue = [];
 
     def isEmpty(self):
-        return self.queue == [];
+        return self.__queue == [];
 
     def enqueue(self, data):
-        self.queue.append(data);
+        self.__queue.append(data);
 
     def dequeue(self):
-        data = self.queue[0];
-        del self.queue[0];
+        data = self.__queue[0];
+        del self.__queue[0];
         return data;
 
     def peek(self):
-        return self.queue[0];
+        return self.__queue[0];
 
     def sizeQueue(self):
-        return len(self.queue);
+        return len(self.__queue);
 
 
 # ----

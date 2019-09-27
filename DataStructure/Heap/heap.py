@@ -4,82 +4,82 @@ class Heap(object):
 
     def __init__(self):
         # init an array with capacity
-        self.heap = [0] * CAPACITY
+        self.__heap = [0] * CAPACITY
 
-        self.heap_size = 0
+        self.__heap_size = 0
 
 
     def insert(self, item):
         print("Inserting item %s" % item)
 
-        if self.heap_size == CAPACITY:
+        if self.__heap_size == CAPACITY:
             print("Not enough free space")
             return
 
-        self.heap[self.heap_size] = item
-        self.heap_size += 1
+        self.__heap[self.__heap_size] = item
+        self.__heap_size += 1
 
-        self._fix_up(self.heap_size - 1)
+        self.__fix_up(self.__heap_size - 1)
 
 
     def get_max(self): # can be named peek
-        return self.heap[0]
+        return self.__heap[0]
 
 
     def poll(self):
         max = self.get_max()
         print("Removing max %s" % max)
 
-        self._swap(0, self.heap_size - 1)
-        self.heap_size -= 1
+        self.__swap(0, self.__heap_size - 1)
+        self.__heap_size -= 1
 
-        self._fix_down(0)
+        self.__fix_down(0)
 
         return max
 
 
     def sort(self):
-        size = self.heap_size
+        size = self.__heap_size
 
         for i in range(0, size):
             print(self.poll())
 
     def display(self):
-        print(self.heap)
+        print(self.__heap)
 
 
-    def _fix_up(self, index):
+    def __fix_up(self, index):
         parent_index = (index - 1) // 2
 
-        child = self.heap[index]
-        parent = self.heap[parent_index]
+        child = self.__heap[index]
+        parent = self.__heap[parent_index]
 
         if index > 0 and child > parent:
             print("Swap child = %s and parent = %s" % (child, parent))
-            self._swap(index, parent_index)
-            self._fix_up(parent_index)
+            self.__swap(index, parent_index)
+            self.__fix_up(parent_index)
 
 
-    def _fix_down(self, index):
+    def __fix_down(self, index):
         index_largest = index
 
         index_left = 1 * index + 1
         index_right = 1 * index + 2
 
-        if index_left < self.heap_size and self.heap[index_left] > self.heap[index]:
+        if index_left < self.__heap_size and self.__heap[index_left] > self.__heap[index]:
             index_largest = index_left
 
-        if index_right < self.heap_size and self.heap[index_right] > self.heap[index_largest]:
+        if index_right < self.__heap_size and self.__heap[index_right] > self.__heap[index_largest]:
             index_largest = index_right
 
         if index != index_largest:
-            print("Swap child = %s and parent = %s" % (self.heap[index_largest], self.heap[index]))
-            self._swap(index, index_largest)
-            self._fix_down(index_largest)
+            print("Swap child = %s and parent = %s" % (self.__heap[index_largest], self.__heap[index]))
+            self.__swap(index, index_largest)
+            self.__fix_down(index_largest)
 
 
-    def _swap(self, index1, index2):
-        self.heap[index2], self.heap[index1] = self.heap[index1], self.heap[index2]
+    def __swap(self, index1, index2):
+        self.__heap[index2], self.__heap[index1] = self.__heap[index1], self.__heap[index2]
 
 
 # ----
