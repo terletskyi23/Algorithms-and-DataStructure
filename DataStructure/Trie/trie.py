@@ -54,7 +54,7 @@ trie.insert("test", 23)
 trie.insert("pes", 8)
 trie.insert("pesso", 92)
 
-print("-" * 20)
+print("#" * 30)
 
 print("Found: %s" % trie.search("p"))
 print("Found: %s" % trie.search("pes"))
