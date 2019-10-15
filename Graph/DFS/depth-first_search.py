@@ -7,22 +7,16 @@ class Node(object):
         self.predecessor = None
 
 
-class BFS(object):
+class DFS(object):
 
-    def bfs(self, start_node):
-        queue = []
+    def dfs(self, node):
+        node.visited = True
+        print("Node name: %s" % node.name)
 
-        queue.append(start_node)
-        start_node.visited = True
-
-        while queue:
-            actual_node = queue.pop(0)
-            print("Node name: %s" % actual_node.name)
-
-            for node in actual_node.adjacency_list:
-                if not node.visited:
-                    node.visited = True
-                    queue.append(node)
+        # we can use STACK, or like here, recursive method
+        for adjacency_node in node.adjacency_list:
+            if not adjacency_node.visited:
+                self.dfs(adjacency_node)
 
 
 # ----
@@ -48,5 +42,5 @@ node4.adjacency_list.append(node7)
 node7.adjacency_list.append(node8)
 
 
-bfs = BFS()
-bfs.bfs(node1)
+dfs = DFS()
+dfs.dfs(node1)
